@@ -1,10 +1,12 @@
 <html>
-<body style="margin:0">
-	<iframe id="page" sandbox="allow-scripts" style="border:0;width:100%;height:100vh"></iframe>
+<body>
 	<script>
 		// Everything after the # never leaves the browser. Format: base64 of the HTML.
+		// This runs whatever HTML the link contains, so this site must never hold anything sensitive.
 		const bytes = Uint8Array.from(atob(location.hash.slice(1)), c => c.charCodeAt(0));
-		document.getElementById("page").srcdoc = new TextDecoder().decode(bytes);
+		document.open();
+		document.write(new TextDecoder().decode(bytes));
+		document.close();
 	</script>
 </body>
 </html>
