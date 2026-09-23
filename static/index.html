@@ -1,11 +1,156 @@
 <html>
 <head>
+	<title>SSCrypto</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+		}
+		
+		.nav-menu {
+			position: fixed;
+			top: 0;
+			width: 100%;
+			background: #333;	
+			padding: 15px 0;
+			z-index: 1000;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+		}
+		
+		.nav-menu ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			gap: 30px;
+		}
+		
+		.nav-menu li {
+			margin: 0;
+		}
+		
+		.nav-menu a {
+			color: white;
+			text-decoration: none;
+			font-size: 16px;
+			padding: 10px 20px;
+			border-radius: 5px;
+			transition: background-color 0.3s;
+		}
+		
+		.nav-menu a:hover {
+			background-color: #555;
+		}
+		
+		.content {
+			margin-top: 80px;
+			padding: 20px;
+		}
+		
+		.section {
+			min-height: 100vh;
+			padding: 40px 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		#top-section {
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			color: white;
+			text-align: center;
+		}
+		
+		#gallery-section {
+			background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+			color: white;
+			text-align: center;
+		}
+		
+		.section h1 {
+			font-size: 3em;
+			margin-bottom: 20px;
+			text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+		}
+		
+		.section p {
+			font-size: 1.2em;
+			max-width: 600px;
+			line-height: 1.6;
+		}
+		
+		.gallery-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+			gap: 20px;
+			max-width: 800px;
+			margin-top: 30px;
+		}
+		
+		.gallery-item {
+			background: rgba(255,255,255,0.1);
+			padding: 20px;
+			border-radius: 10px;
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255,255,255,0.2);
+		}
+	</style>
 	<script type="module">
 		import bootstrap from "./javascript/bootstrap.js";
 		bootstrap();
 	</script>
 </head>
 <body>
-	<h1>Loading...</h1>
-</body>
+	<nav class="nav-menu">
+		<ul>
+			<li><a href="#top" onclick="scrollToSection('top')">Top</a></li>
+			<li><a href="#gallery" onclick="scrollToSection('gallery')">Gallery</a></li>
+		</ul>
+	</nav>
+	
+	<div class="content">
+		<section id="top-section" class="section">
+			<h1>Welcome to SSCrypto</h1>
+			<p>Your secure cryptocurrency solution with advanced encryption and blockchain technology.</p>
+		</section>
+		
+		<section id="gallery-section" class="section">
+			<h1>Gallery</h1>
+			<p>Explore our features and capabilities</p>
+			<div class="gallery-grid">
+				<div class="gallery-item">
+					<h3>Security</h3>
+					<p>Advanced encryption protocols</p>
+				</div>
+				<div class="gallery-item">
+					<h3>Blockchain</h3>
+					<p>Distributed ledger technology</p>
+				</div>
+				<div class="gallery-item">
+					<h3>Privacy</h3>
+					<p>Anonymous transactions</p>
+				</div>
+				<div class="gallery-item">
+					<h3>Speed</h3>
+					<p>Lightning-fast processing</p>
+				</div>
+			</div>
+		</section>
+	</div>
+	
+	<script>
+		function scrollToSection(sectionId) {
+			const section = document.getElementById(sectionId + '-section');
+			if (section) {
+				section.scrollIntoView({ 
+					behavior: 'smooth',
+					block: 'start'
+				});
+			}
+		}
+	</script>
+</body>	
 </html>
