@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const staticDir = path.join(__dirname, '../static');
+const staticDir = path.join(__dirname, '..');
 const types = { '.html': 'text/html', '.js': 'text/javascript' };
 
 http.createServer((req, res) => {
