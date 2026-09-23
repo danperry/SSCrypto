@@ -1,0 +1,10 @@
+<html>
+<body style="margin:0">
+	<iframe id="page" sandbox="allow-scripts" style="border:0;width:100%;height:100vh"></iframe>
+	<script>
+		// Everything after the # never leaves the browser. Format: base64 of the HTML.
+		const bytes = Uint8Array.from(atob(location.hash.slice(1)), c => c.charCodeAt(0));
+		document.getElementById("page").srcdoc = new TextDecoder().decode(bytes);
+	</script>
+</body>
+</html>
