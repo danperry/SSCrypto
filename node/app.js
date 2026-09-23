@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const staticDir = path.join(__dirname, '..');
-const types = { '.html': 'text/html', '.js': 'text/javascript' };
+const types = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json' };
 
 http.createServer((req, res) => {
   const url = req.url.split('?')[0];
