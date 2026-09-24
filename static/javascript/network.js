@@ -1,14 +1,26 @@
+// Each resource version only runs once; later loads get the same result.
+const loaded = {};
+
 export default class Network {
+	// Runs a resource and returns whatever its code returns.
 	static async loadResource(id, version){
+		const folder = new URL(`../Resources/${id}/`, import.meta.url);
 		try {
-			const folder = new URL(`../Resources/${id}/`, import.meta.url);
 			if (!version) {
 				version = (await (await fetch(new URL("info.json", folder), { cache: "no-cache" })).json()).current;
 			}
-			const resource = await (await fetch(new URL(`${version}/resource.json`, folder), { cache: "force-cache" })).json();
-			(await import("data:text/javascript;base64," + btoa("export function resourceFunc(Network) {" + resource.contents + "}"))).resourceFunc(Network);
+			const key = `${id}/${version}`;
+			if (!loaded[key]) loaded[key] = run(new URL(`${version}/resource.json`, folder));
+			return await loaded[key];
 		} catch (error) {
-			alert(`Failed to load resource "${id}": ${error.message}`);
+			throw new Error(`Failed to load resource "${id}": ${error.message}`);
 		}
 	}
+}
+
+async function run(url){
+	const resource = await (await fetch(url, { cache: "force-cache" })).json();
+	const code = "export default async function (Network) {" + resource.contents + "\n}";
+	const module = await import(URL.createObjectURL(new Blob([code], { type: "text/javascript" })));
+	return module.default(Network);
 }
