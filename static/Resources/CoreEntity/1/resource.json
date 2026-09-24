@@ -1,0 +1,3 @@
+{
+  "contents": "// CoreEntity: the owner of the root of the tree. Every signature check traces back to this key.\n// publicKey is empty until Dan's key is generated; a later version will fill it in.\nreturn {\n\tid: \"danperry\",\n\ttype: \"User\",\n\tname: \"Dan Perry\",\n\tscheme: \"Ed25519\",\n\tpublicKey: \"\"\n};\n"
+}
