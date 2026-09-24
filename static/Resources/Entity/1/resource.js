@@ -1,8 +1,8 @@
-// signature: 6qslqNYEZ/28DNpvmT/EguhHqYDkqhJqXuqabEWpsDqQZVrxEermGxvabopIBOi5R7m4YocgjeuU3onwZT19BA==
+// signature: WCxNCuH5qHP9pMwbpKauJqE8+OgSUjSenhq5oxwDqnuEfRxjn13CgytUb5y4i+FiSJSQ3y2GLRc9JfrnvvvUDg==
 // Entity: anything that can own part of the tree. User and Population extend it.
 const Crypto = await Network.loadResource("Crypto", 1);
 
-class Entity {
+export class Entity {
 	// record is the entity's public info: { id, type, name, scheme, publicKey }.
 	// A privateKey is only present on your own entities and never goes in the tree.
 	constructor(record) {
@@ -39,12 +39,11 @@ class Entity {
 	}
 }
 
-class User extends Entity {}
+export class User extends Entity {}
 
 // A group of entities. Its members are listed under "members" in its own branch.
 // For now it has one key pair, held by whoever runs it.
-class Population extends Entity {}
+export class Population extends Entity {}
 
 const types = { Entity, User, Population };
 
-return types;

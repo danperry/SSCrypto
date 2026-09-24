@@ -1,4 +1,4 @@
-// signature: +DxqcKSxc4xE6bniNfJyY0V/v0JTCVKxj2P0N6laK4m/c56i+wTTKX3G9gTfwzDFWLTR3aVg+3UWxaf1fp/EDg==
+// signature: bzjiU3ltzA6LFpo21NxNTgnX0cpUHVKNTP2ElrBNjGZntGOCvmbc6iS3DP+mTJYmhgJWUynGKuJU3J8IF4m7CQ==
 // Tree: the signed JSON tree.
 //
 // Reserved property names:
@@ -12,23 +12,23 @@
 const Crypto = await Network.loadResource("Crypto", 1);
 const { Entity } = await Network.loadResource("Entity", 1);
 
-function isObject(value) {
+export function isObject(value) {
 	return value !== null && typeof value === "object";
 }
 
-function isStub(value) {
+export function isStub(value) {
 	return isObject(value) && Object.keys(value).length === 1 && "#" in value;
 }
 
 // The hash a parent sees for a child: a delegated branch counts only its owner block.
-async function hash(node) {
+export async function hash(node) {
 	if (isObject(node) && node.owner) return contentHash({ owner: node.owner });
 	return contentHash(node);
 }
 
 // The hash of a node's own content: every child is replaced by its hash, then
 // the result is hashed. This is what an owner signs. The signature itself is skipped.
-async function contentHash(node) {
+export async function contentHash(node) {
 	if (isStub(node)) return node["#"];
 	if (!isObject(node)) return Crypto.hash(Crypto.canonical(node));
 	const parts = Array.isArray(node) ? [] : {};
@@ -38,7 +38,7 @@ async function contentHash(node) {
 	return Crypto.hash(Crypto.canonical(parts));
 }
 
-async function sign(node, entity) {
+export async function sign(node, entity) {
 	node.signature = await entity.sign(await contentHash(node));
 }
 
@@ -55,7 +55,7 @@ function delegatedChildren(node) {
 }
 
 // Checks an owned node's signature, and every delegated branch inside it.
-async function verifyBranch(node) {
+export async function verifyBranch(node) {
 	const owner = Entity.from(node.owner);
 	if (!await owner.verify(await contentHash(node), node.signature)) return false;
 	for (const child of delegatedChildren(node)) {
@@ -65,13 +65,13 @@ async function verifyBranch(node) {
 }
 
 // Checks the whole tree. core is the record of the entity trusted to own the root.
-async function verify(tree, core) {
+export async function verify(tree, core) {
 	if (!tree.owner || Crypto.canonical(tree.owner) !== Crypto.canonical(core)) return false;
 	return verifyBranch(tree);
 }
 
 // Follows a path (a list of keys) down the tree.
-function get(tree, path) {
+export function get(tree, path) {
 	let node = tree;
 	for (const key of path) node = isObject(node) ? node[key] : undefined;
 	return node;
@@ -79,7 +79,7 @@ function get(tree, path) {
 
 // Sets (or deletes, if value is undefined) the value at path, then the owner
 // of that spot bumps seq and signs again. Only that owner may do this.
-async function update(tree, path, value, entity) {
+export async function update(tree, path, value, entity) {
 	const last = path[path.length - 1];
 	if (path.length === 0) throw new Error("Can't replace the root");
 	if (["owner", "seq", "signature"].includes(last)) throw new Error(`"${last}" can't be set directly; use delegate`);
@@ -104,8 +104,6 @@ async function update(tree, path, value, entity) {
 
 // Gives the branch at path to another entity. Anything already there is replaced.
 // The new owner then signs their branch (Tree.sign) or makes an update.
-async function delegate(tree, path, delegateEntity, entity) {
+export async function delegate(tree, path, delegateEntity, entity) {
 	await update(tree, path, { owner: delegateEntity.record(), seq: 0 }, entity);
 }
-
-return { hash, contentHash, sign, verify, verifyBranch, get, update, delegate, isObject, isStub };

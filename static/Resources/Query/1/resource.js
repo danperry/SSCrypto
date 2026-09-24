@@ -1,4 +1,4 @@
-// signature: FxofEkGRnTPTNxCEsNvr7wnR5sL0HhcGizZNrUWmxdmIAVinY7X7XIlFhBkOhzqxms5+K/NEWK5MhDBIEEG/BQ==
+// signature: l01O9A86ClLSsc7Du5fIAGeRSLfdW2Yayw5mvOUBJjWfLQZJ3w0IwVRVw6ZRYlwtgz6PRr0sAzOaBIa6SMzTAA==
 // Query: pick part of the tree with a small piece of JSONPath (RFC 9535).
 //
 //   $          the root
@@ -12,7 +12,7 @@
 const Tree = await Network.loadResource("Tree", 1);
 
 // "$.a..b[0]" -> [{ key: "a" }, { key: "b", deep: true }, { key: 0 }]
-function parse(text) {
+export function parse(text) {
 	if (text[0] !== "$") throw new Error(`Query must start with $: ${text}`);
 	const steps = [];
 	const token = /(\.\.|\.)?(?:(\*)|([A-Za-z_][\w-]*)|\[\*\]|\['([^']*)'\]|\[(\d+)\])/y;
@@ -42,7 +42,7 @@ function allPaths(node, path) {
 }
 
 // Every path in the tree that matches the query text.
-function find(tree, text) {
+export function find(tree, text) {
 	let paths = [[]];
 	for (const step of parse(text)) {
 		const next = [];
@@ -59,7 +59,7 @@ function find(tree, text) {
 	return paths;
 }
 
-async function run(tree, { select = "$", omit = [] } = {}) {
+export async function run(tree, { select = "$", omit = [] } = {}) {
 	const keep = find(tree, select);
 	const hide = new Set(omit.flatMap(text => find(tree, text)).map(path => JSON.stringify(path)));
 	const keepIds = new Set(keep.map(path => JSON.stringify(path)));
@@ -81,5 +81,3 @@ async function run(tree, { select = "$", omit = [] } = {}) {
 		return result;
 	}
 }
-
-return { parse, find, run };

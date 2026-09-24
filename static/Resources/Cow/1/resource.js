@@ -1,3 +1,2 @@
-// signature: lq2UqcAXg4xwd1K0iN3W7OygJZnGpS3tYOhm1jro02DwRoAG7V/C0OHlT6PjlsRc9irNV5wDoaSqoTLN8TUaBA==
+// signature: Jev8VWi/iFuNkaCZ8niVktlYmgVEzQr4nDvjUHFLLA5t8hEf3ZYeFTVnQeNzFuXmYPh2NQiPI2WGaZDJGs1KCA==
 alert('Cow Loaded');
-return {};

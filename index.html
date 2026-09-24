@@ -2,8 +2,14 @@
 <head>
 	<title>SSCrypto</title>
 	<script type="module">
-		import bootstrap from "./static/javascript/bootstrap.js";
-		bootstrap();
+		import Network from "./static/javascript/network.js";
+
+		try {
+			const baseApp = await Network.loadResource("baseApp");
+			await baseApp.run();
+		} catch (error) {
+			alert(error.message);
+		}
 	</script>
 </head>
 <body>

@@ -1,5 +1,5 @@
 // Tests every resource version. For each version it checks that:
-//  - it loads (signed by its owner, returns an object)
+//  - it loads (a module signed by its owner)
 //  - it still has everything the previous version had (resources only expand)
 //  - it has everything info.json says was added in it and earlier versions
 //  - the tests in its own tests folder AND every earlier version's tests pass

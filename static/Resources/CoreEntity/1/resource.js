@@ -1,10 +1,8 @@
-// signature: n4aZhWO6RGJZ5I1kb6CQOgepT5Hk62byw9iZdv/wu+Jj/N8/QzeF4ui4KGvICLUZ9RT/xXm89qwMfBW5VFcYCg==
+// signature: eq1Tp4aycutf3ZOxdB5J5wK8wYzQ30Hw0xm0yIaLaqXWQmIC31M2u/USNh1IxlSQK5a/ylkBu69pV+DAidpjBw==
 // CoreEntity: the owner of the root of the tree. Every signature check traces back to this key.
 // publicKey is empty until Dan's key is generated; a later version will fill it in.
-return {
-	id: "danperry",
-	type: "User",
-	name: "Dan Perry",
-	scheme: "Ed25519",
-	publicKey: ""
-};
+export const id = "danperry";
+export const type = "User";
+export const name = "Dan Perry";
+export const scheme = "Ed25519";
+export const publicKey = "";

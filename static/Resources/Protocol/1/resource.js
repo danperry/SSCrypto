@@ -1,4 +1,4 @@
-// signature: q6sX1+zD+iMnAT07mwrjDLPS/vZpd1ZU6tl2GQ/SPjP3C3egJqnhOoWVkM/EpE5k8ILge0T1EzR8132CKtnlDw==
+// signature: XM8hoQRp/0VccBc7GO7zG5rhyfs5VjZlE/nZNbPNtq6iQCx8n0Xtici0nZV9K1Q5O6bjJS4CNcv2cHgfSJ91Dw==
 // Protocol: the messages peers send each other about the tree.
 //
 //   { type: "get", query: { select, omit } }       -> { type: "result", tree }
@@ -11,7 +11,7 @@ const Crypto = await Network.loadResource("Crypto", 1);
 const Tree = await Network.loadResource("Tree", 1);
 const Query = await Network.loadResource("Query", 1);
 
-async function handle(tree, message) {
+export async function handle(tree, message) {
 	try {
 		if (message.type === "get") return { type: "result", tree: await Query.run(tree, message.query) };
 		if (message.type === "put") {
@@ -24,7 +24,7 @@ async function handle(tree, message) {
 	}
 }
 
-async function put(tree, path, branch) {
+export async function put(tree, path, branch) {
 	branch = structuredClone(branch);
 	const current = Tree.get(tree, path);
 	if (!Tree.isObject(current) || !current.owner) throw new Error(`No owned branch at ${JSON.stringify(path)}`);
@@ -48,5 +48,3 @@ function keepNewer(ours, theirs) {
 		else keepNewer(a, b);
 	}
 }
-
-return { handle, put };

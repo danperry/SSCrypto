@@ -3,7 +3,7 @@ const loaded = {};
 let core;
 
 export default class Network {
-	// Runs a resource and returns the object its code returns.
+	// Loads a resource (a standard module) and returns its exports.
 	static async loadResource(id, version){
 		const folder = new URL(`../Resources/${id}/`, import.meta.url);
 		try {
@@ -19,17 +19,20 @@ export default class Network {
 }
 
 async function run(id, version, owner, url){
-	let text = await (await fetch(url, { cache: "force-cache" })).text();
-	if (!await signedBy(owner, id, version, text)) {
-		// The owner may have re-signed since this copy was cached, so try a fresh copy once.
-		text = await (await fetch(url, { cache: "reload" })).text();
-		if (!await signedBy(owner, id, version, text)) throw new Error(`Version ${version} isn't signed by "${owner}"`);
+	try {
+		return await check(id, version, owner, url, "force-cache");
+	} catch (error) {
+		// The cached copy may be out of date (for example re-signed since), so try a fresh copy once.
+		return await check(id, version, owner, url, "reload");
 	}
-	const code = "export default async function (Network) {\n" + text + "\n}";
-	const module = await import("data:text/javascript," + encodeURIComponent(code));
-	const result = await module.default(Network);
-	if (result === null || typeof result !== "object") throw new Error(`Version ${version} didn't return an object`);
-	return result;
+}
+
+// Fetches a version, checks its signature, then imports the exact text that was checked.
+// Its exports are what loadResource returns.
+async function check(id, version, owner, url, cache){
+	const text = await (await fetch(url, { cache })).text();
+	if (!await signedBy(owner, id, version, text)) throw new Error(`Version ${version} isn't signed by "${owner}"`);
+	return import("data:text/javascript," + encodeURIComponent(text));
 }
 
 // The first line of a resource.js is "// signature: <base64>": the owner's Ed25519
@@ -47,6 +50,10 @@ async function signedBy(owner, id, version, text){
 	const key = await crypto.subtle.importKey("raw", fromBase64(publicKey), { name: "Ed25519" }, false, ["verify"]);
 	return crypto.subtle.verify("Ed25519", key, signature, message);
 }
+
+// Resources are imported from their checked text, which has no file location to
+// import from, so they use Network as a global.
+globalThis.Network = Network;
 
 function fromBase64(text){
 	return Uint8Array.from(atob(text), letter => letter.charCodeAt(0));
