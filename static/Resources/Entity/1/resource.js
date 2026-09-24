@@ -1,3 +1,4 @@
+// signature: 6qslqNYEZ/28DNpvmT/EguhHqYDkqhJqXuqabEWpsDqQZVrxEermGxvabopIBOi5R7m4YocgjeuU3onwZT19BA==
 // Entity: anything that can own part of the tree. User and Population extend it.
 const Crypto = await Network.loadResource("Crypto", 1);
 

@@ -1,3 +1,13 @@
 {
-  "current": 1
+  "owner": "danperry",
+  "current": 1,
+  "description": "Messages peers send about the tree: { type: 'get', query } -> { type: 'result', tree }; { type: 'put', path, branch } -> { type: 'ok' }; failures -> { type: 'error', message }.",
+  "versions": {
+    "1": {
+      "added": {
+        "handle(tree, message)": "Answers a message. Async.",
+        "put(tree, path, branch)": "Replaces the owned branch at path with a newer signed copy (same owner, bigger seq, valid signatures). Keeps our copies of delegated branches that are newer. Async."
+      }
+    }
+  }
 }

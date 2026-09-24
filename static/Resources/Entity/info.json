@@ -1,3 +1,14 @@
 {
-  "current": 1
+  "owner": "danperry",
+  "current": 1,
+  "description": "Entities that can own parts of the tree.",
+  "versions": {
+    "1": {
+      "added": {
+        "Entity": "Class. new Entity(record) where record is { id, type, name, scheme, publicKey }. Entity.create(id, name, scheme = 'Ed25519') makes one with a new key pair. Entity.from(record) makes the right class from record.type. .record() is the public info (no privateKey). .sign(text) and .verify(text, signature) are async.",
+        "User": "Class. An Entity for a person.",
+        "Population": "Class. An Entity for a group; its members are listed under 'members' in its own branch. One key pair for now."
+      }
+    }
+  }
 }

@@ -1,3 +1,16 @@
 {
-  "current": 1
+  "owner": "danperry",
+  "current": 1,
+  "description": "JSON in one exact text form, SHA-256 hashing, and signing schemes.",
+  "versions": {
+    "1": {
+      "added": {
+        "canonical(value)": "JSON text with object keys sorted, so the same data always gives the same text.",
+        "hash(text)": "SHA-256 of text, as base64. Async.",
+        "schemes": "Signing schemes by name. Each has generate() -> { publicKey, privateKey }, sign(privateKey, text) -> signature, verify(publicKey, text, signature) -> true/false. All async. v1 has Ed25519.",
+        "toBase64(bytes)": "Bytes to base64 text.",
+        "fromBase64(text)": "Base64 text to a Uint8Array."
+      }
+    }
+  }
 }

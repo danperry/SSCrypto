@@ -1,3 +1,20 @@
 {
-  "current": 2
+  "owner": "danperry",
+  "current": 2,
+  "description": "The record of the entity that owns the root of the tree.",
+  "versions": {
+    "1": {
+      "added": {
+        "id": "The entity id, 'danperry'.",
+        "type": "'User'.",
+        "name": "'Dan Perry'.",
+        "scheme": "'Ed25519'.",
+        "publicKey": "Base64 public key. Empty in v1."
+      }
+    },
+    "2": {
+      "added": {},
+      "notes": "publicKey is read from coreEntity.json next to index.html."
+    }
+  }
 }

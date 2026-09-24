@@ -1,3 +1,0 @@
-{
-  "contents": "// CoreEntity: the owner of the root of the tree. Every signature check traces back to this key.\n// The public key is read from coreEntity.json next to index.html, so it can be changed without a new version.\nconst file = await (await fetch(new URL(\"coreEntity.json\", document.baseURI), { cache: \"no-cache\" })).json();\n\nreturn {\n\tid: \"danperry\",\n\ttype: \"User\",\n\tname: \"Dan Perry\",\n\tscheme: \"Ed25519\",\n\tpublicKey: file.publicKey\n};\n"
-}

@@ -1,3 +1,4 @@
+// signature: D1queD1DCw+t3kwidlUoWENU/EAzcKkBgnYMe3lccA66r4BxKGS3KxtgYhKnNGW5dGhogXiDgq+Yn07TzAsdDQ==
 // CoreEntity: the owner of the root of the tree. Every signature check traces back to this key.
 // The public key is read from coreEntity.json next to index.html, so it can be changed without a new version.
 const file = await (await fetch(new URL("coreEntity.json", document.baseURI), { cache: "no-cache" })).json();

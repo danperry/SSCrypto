@@ -1,3 +1,14 @@
 {
-  "current": 1
+  "owner": "danperry",
+  "current": 1,
+  "description": "Pick part of the tree with a subset of JSONPath (RFC 9535): $, .name, ['name'], [0], *, [*], and .. for any depth.",
+  "versions": {
+    "1": {
+      "added": {
+        "parse(text)": "Query text to a list of steps { key, deep }.",
+        "find(tree, text)": "Every path in the tree that matches.",
+        "run(tree, { select, omit })": "A copy of the tree with only what select matches, minus what the omit queries match. Left-out parts become { \"#\": hash } so the result still verifies. Async."
+      }
+    }
+  }
 }

@@ -1,3 +1,21 @@
 {
-  "current": 1
+  "owner": "danperry",
+  "current": 1,
+  "description": "The signed JSON tree. Reserved property names: owner, seq, signature, and { \"#\": hash } for a left-out part. An owner signs its branch down to the next owner. path is a list of keys.",
+  "versions": {
+    "1": {
+      "added": {
+        "hash(node)": "The hash a parent sees for node; a delegated branch counts only its owner block. Async.",
+        "contentHash(node)": "The hash of node's own content, which its owner signs. Async.",
+        "sign(node, entity)": "Sets node.signature. Async.",
+        "verify(tree, core)": "True if the root is owned by core and every signature checks out. Async.",
+        "verifyBranch(node)": "True if an owned node and every branch delegated from it check out. Async.",
+        "get(tree, path)": "The value at path, or undefined.",
+        "update(tree, path, value, entity)": "Sets (or deletes, if value is undefined) the value at path; the owner of that spot bumps seq and signs again. Throws if entity isn't that owner. Async.",
+        "delegate(tree, path, delegateEntity, entity)": "Gives the branch at path to delegateEntity, replacing what was there. The new owner then signs it. Async.",
+        "isObject(value)": "True for objects and arrays.",
+        "isStub(value)": "True for { \"#\": hash }."
+      }
+    }
+  }
 }

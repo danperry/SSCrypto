@@ -1,3 +1,4 @@
+// signature: ijPSIbS4u7Ym67JV/dewQN08erWev36GD/rkJLwBsBLkW68MgDUbE/1exFUV92abAY3gR00sQDIJ/j7u8+4sCA==
 // Crypto: JSON in one exact text form, SHA-256 hashing, and signing schemes.
 
 // JSON with object keys sorted, so the same data always gives the same text.

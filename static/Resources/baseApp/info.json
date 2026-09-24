@@ -1,3 +1,11 @@
 {
-  "current": 4
+  "owner": "danperry",
+  "current": 4,
+  "description": "The app that runs when the page loads.",
+  "versions": {
+    "1": { "added": {}, "notes": "Loads Cow and Pig." },
+    "2": { "added": {}, "notes": "Loads Cow v1 and Pig." },
+    "3": { "added": {}, "notes": "Demo of the signed tree, queries and the protocol." },
+    "4": { "added": {}, "notes": "Same demo using CoreEntity v2." }
+  }
 }

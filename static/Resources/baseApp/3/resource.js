@@ -1,3 +1,4 @@
+// signature: 9U5YPMTCWVsq9wJ1SfEZIkxm9za5ph1ZZmmPUNwGt5lmQILP+a3xgE1mZM/uXsjlfewfxfHuqFLGKdE2qfEnCA==
 // baseApp: a demo of the signed tree, queries and the protocol.
 const { User, Population } = await Network.loadResource("Entity", 1);
 const CoreEntity = await Network.loadResource("CoreEntity", 1);
@@ -73,3 +74,5 @@ log("Peer accepts Alice's update:", await Protocol.handle(peer, put));
 log("Peer's scores now:", peer.games.scores);
 log("Peer tree verifies:", await Tree.verify(peer, core));
 log("Same update sent again:", await Protocol.handle(peer, put));
+
+return {};
