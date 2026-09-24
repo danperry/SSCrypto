@@ -1,4 +1,8 @@
-// `resource` is the version being tested: this one or a newer one.
-test("has a run function", () => {
-	assert.equal(typeof resource.run, "function");
-});
+// Each test gets the baseApp version being tested: this one or a newer one.
+import assert from "node:assert/strict";
+
+export default {
+	"has a run function": baseApp => {
+		assert.equal(typeof baseApp.run, "function");
+	}
+};

@@ -7,7 +7,6 @@
 // Run: node node/test.js
 const fs = require('fs');
 const path = require('path');
-const assert = require('assert').strict;
 const { pathToFileURL } = require('url');
 
 const root = path.join(__dirname, '..');
@@ -31,21 +30,19 @@ function versionsOf(id) {
   return fs.readdirSync(path.join(resources, id)).filter(name => /^\d+$/.test(name)).map(Number).sort((a, b) => a - b);
 }
 
-// Runs one test file against a resource. A test file is plain code that can use
-// resource, test(name, fn), assert and Network.
-async function runTestFile(file, resource, Network) {
-  const tests = [];
-  const code = 'export default async function (resource, test, assert, Network) {\n' + fs.readFileSync(file, 'utf8') + '\n}';
-  await (await import('data:text/javascript,' + encodeURIComponent(code))).default(resource, (name, fn) => tests.push({ name, fn }), assert, Network);
+// Runs one test file against a resource. A test file is a module whose default
+// export is { "test name": resource => { ... }, ... }.
+async function runTestFile(file, resource) {
+  const tests = (await import(pathToFileURL(file).href)).default;
   const failures = [];
-  for (const { name, fn } of tests) {
+  for (const [name, test] of Object.entries(tests)) {
     try {
-      await fn();
+      await test(resource);
     } catch (error) {
       failures.push(`${name}: ${error.message}`);
     }
   }
-  return { count: tests.length, failures };
+  return { count: Object.keys(tests).length, failures };
 }
 
 async function main() {
@@ -89,7 +86,7 @@ async function main() {
         }
         for (const name of fs.readdirSync(testsFolder).filter(name => name.endsWith('.js')).sort()) {
           try {
-            const { count, failures } = await runTestFile(path.join(testsFolder, name), resource, Network);
+            const { count, failures } = await runTestFile(path.join(testsFolder, name), resource);
             failures.forEach(message => fail(`v${earlier} tests/${name}: ${message}`));
             console.log(`  v${earlier} tests/${name}: ${count - failures.length}/${count} passed`);
           } catch (error) {
