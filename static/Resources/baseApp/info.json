@@ -1,11 +1,12 @@
 {
   "owner": "danperry",
-  "current": 4,
+  "current": 5,
   "description": "The app that runs when the page loads.",
   "versions": {
     "1": { "added": { "run()": "Starts the app. Called by index.html." }, "notes": "run() loads Cow and Pig." },
     "2": { "added": {}, "notes": "run() loads Cow v1 and Pig." },
     "3": { "added": {}, "notes": "run() is a demo of the signed tree, queries and the protocol." },
-    "4": { "added": {}, "notes": "Same demo using CoreEntity v2." }
+    "4": { "added": {}, "notes": "Same demo using CoreEntity v2." },
+    "5": { "added": {}, "notes": "run() also loads the saved tree (TreeStore), or starts one owned by the root, and saves it." }
   }
 }

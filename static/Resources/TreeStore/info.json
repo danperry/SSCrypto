@@ -1,0 +1,13 @@
+{
+  "owner": "danperry",
+  "current": 1,
+  "description": "Keeps the tree between page loads: in localStorage, falling back to tree.json next to index.html. Saving also sends it to the local server (node/app.js), which writes tree.json to disk.",
+  "versions": {
+    "1": {
+      "added": {
+        "load()": "Returns { tree, from }: from is 'localStorage' or 'disk'; both are null if nothing is saved. Async.",
+        "save(tree)": "Saves to localStorage and PUTs tree.json. Returns true if it reached the disk. Async."
+      }
+    }
+  }
+}

@@ -14,10 +14,22 @@ const resources = path.join(root, 'static', 'Resources');
 
 // Just enough of a browser for the resources to run in Node.
 globalThis.crypto = globalThis.crypto || require('crypto').webcrypto;
-globalThis.fetch = async url => {
-  const text = fs.readFileSync(new URL(url), 'utf8');
-  return { text: async () => text, json: async () => JSON.parse(text) };
+globalThis.fetch = async (url, options = {}) => {
+  const file = new URL(url);
+  // Tests never write to disk, and a missing file answers "not found" like a real server.
+  if (options.method === 'PUT' || !fs.existsSync(file)) {
+    const notFound = async () => { throw new Error(`Not found: ${file.pathname}`); };
+    return { ok: false, text: notFound, json: notFound };
+  }
+  const text = fs.readFileSync(file, 'utf8');
+  return { ok: true, text: async () => text, json: async () => JSON.parse(text) };
 };
+const storage = {};
+Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
+  getItem: key => (key in storage ? storage[key] : null),
+  setItem: (key, value) => { storage[key] = String(value); },
+  removeItem: key => { delete storage[key]; }
+} });
 globalThis.alert = () => {};
 globalThis.document = {
   baseURI: pathToFileURL(root + '/').href,
