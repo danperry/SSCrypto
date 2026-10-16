@@ -1,6 +1,6 @@
 {
   "owner": "danperry",
-  "current": 7,
+  "current": 8,
   "description": "The app that runs when the page loads.",
   "versions": {
     "1": {
@@ -32,6 +32,10 @@
     "7": {
       "added": {},
       "notes": "Uses Tree v3."
+    },
+    "8": {
+      "added": {},
+      "notes": "The demo tree's root owner is an id, listed in the root's own entities."
     }
   }
 }
