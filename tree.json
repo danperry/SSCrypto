@@ -1,6 +1,6 @@
 {
   "owner": "danperry",
-  "seq": 5,
+  "seq": 6,
   "entities": {
     "danperry": {
       "id": "danperry",
@@ -27,7 +27,7 @@
   "notes": {
     "created": "2026-10-16T20:14:56.237Z"
   },
-  "signature": "Pa6f/AdspcM2D00DW5cokqQXvsYemctb6Y4G0TUHfv5dvhoTQU6jhCVuUosrhV6/QHlZ2FSoFm3092tU+OikAg==",
+  "signature": "AF3C5A6uMp/eSmVci3E74NNaAndZQcIZ9CNHW4sYpNkQ6FOqzrxNXm59GbjXsMIsEH8W681LPuij6R5QNwjSCw==",
   "games": {
     "owner": "alice",
     "seq": 5,
@@ -104,6 +104,40 @@
       ],
       "signature": "+ffqMvKxihRsl6D9l28qoCqKvvkrI72rcgClvKaf3eLxUeDruQSYhth+uBMy0oUHanVILADyP1kczd778p41AA==",
       "next": "2026-11-01"
+    }
+  },
+  "documentation": {
+    "protocol": {
+      "about": "This is how peers talk about this tree. You send a message (a JSON object with a \"type\") and get a JSON reply. You don't have to trust whoever answers: every branch carries its owner's signature, so you can check everything you receive yourself.",
+      "version": "Protocol v2 (resource Protocol, version 2).",
+      "theTree": [
+        "The tree is plain JSON. Some branches are \"owned\": they have an owner property holding an entity id, like \"alice\".",
+        "An owner signs their branch down to the next owned branch inside it, and no further. So each signature only covers that owner's own part.",
+        "Who an id stands for is written in an entities list ({ id: record }) on an owned branch above it. The record holds the entity's public key. The nearest list wins, and the root also uses its own list.",
+        "seq is an owned branch's update counter. It goes up by one on every change, so a bigger seq means a newer copy.",
+        "signature is the owner's signature over the branch's hash.",
+        "A part that was left out of an answer is replaced by { \"#\": hash }. The hash still lets you check the signatures above it."
+      ],
+      "messages": {
+        "get": {
+          "purpose": "Ask for part of the tree.",
+          "send": "{ \"type\": \"get\", \"query\": { \"select\": \"$.games\", \"omit\": [\"$..secret\"] } }",
+          "select": "A JSONPath that picks what you want. $ is the root, .name is a property, ['odd name'] is a property with any characters, [0] is an array item, * is every child, and ..name finds name at any depth. Leave it out to get everything.",
+          "omit": "A list of JSONPaths for parts to leave out of what you selected. Optional.",
+          "reply": "{ \"type\": \"result\", \"tree\": ... } - the tree from the root down, with everything you didn't ask for replaced by { \"#\": hash }. Owned branches above your selection keep their owner, entities, seq and signature, so the answer can be checked."
+        },
+        "put": {
+          "purpose": "Hand over a newer signed copy of an owned branch.",
+          "send": "{ \"type\": \"put\", \"path\": [\"games\"], \"branch\": { ...the whole signed branch... } }",
+          "path": "The list of keys leading to the branch. [] means the root. There must already be an owned branch there.",
+          "branch": "The new copy of that branch, with its owner, seq, signature and content.",
+          "accepted": "Only if the owner is the same as before, seq is bigger than ours, and every signature inside checks out.",
+          "reply": "{ \"type\": \"ok\" }. Branches delegated inside it that we have a newer copy of (bigger seq) are kept."
+        }
+      },
+      "errors": "Anything that goes wrong replies { \"type\": \"error\", \"message\": \"...\" }. For put, the messages are: No owned branch at ..., Owner doesn't match, Not newer than what we have, Bad signature.",
+      "checking": "To check a tree or an answer, start at the root. Its owner must be the CoreEntity (Dan Perry), whose public key is in coreEntity.json. Then check each owned branch's signature with the key found in the entities lists above it. Tree.verify(tree, CoreEntity) does all of this.",
+      "notYet": "Messages are only handled in memory for now (Protocol.handle). Sending them over a network comes next."
     }
   }
 }
