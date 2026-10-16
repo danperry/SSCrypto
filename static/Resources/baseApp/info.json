@@ -1,6 +1,6 @@
 {
   "owner": "danperry",
-  "current": 6,
+  "current": 7,
   "description": "The app that runs when the page loads.",
   "versions": {
     "1": {
@@ -28,6 +28,10 @@
     "6": {
       "added": {},
       "notes": "Uses Tree, Query and Protocol v2 (owners are ids). A new or older saved tree becomes a starter tree: the current users in the root's entities list, and dummy users and groups in the games and club branches."
+    },
+    "7": {
+      "added": {},
+      "notes": "Uses Tree v3."
     }
   }
 }
