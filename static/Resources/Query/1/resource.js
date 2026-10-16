@@ -1,4 +1,4 @@
-// signature: l01O9A86ClLSsc7Du5fIAGeRSLfdW2Yayw5mvOUBJjWfLQZJ3w0IwVRVw6ZRYlwtgz6PRr0sAzOaBIa6SMzTAA==
+// signature: TnJBGl6DnN9BMBsESfxtgxAPRQK6n18T7S2aHDuVRlVz4lUnmlLIhu0DSebI95H8LphMRqQQbzHuC6vjQ24aAw==
 // Query: pick part of the tree with a small piece of JSONPath (RFC 9535).
 //
 //   $          the root

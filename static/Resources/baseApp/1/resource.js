@@ -1,4 +1,4 @@
-// signature: DRYsHNl91buNj0oT7U/rPLK27q4y/1ObtLNwivy8tomKZ3SYyTUPJUPUPCh4Q2j/IbUcTyjWIvt0iIt/CjR7Cg==
+// signature: eH4YdNokQBhbADm694A5wNBg4enina/hQFO6wsMzVdvuSTX6NA/SHj8EMUUMMz72AuVVpd3VC1YK3ba2pt3eAg==
 export function run() {
 	alert('Loading Cow and Pig');
 	Network.loadResource('Cow');

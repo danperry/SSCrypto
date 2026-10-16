@@ -1,4 +1,4 @@
-// signature: 7WxN71kTA62dReXzE3ShQcKISPg6ByPocr2QKTAh0GmUhpeDqG6o9s1d54CIOcrfrYsFJ9335Jx0TrJSSt90Dg==
+// signature: AU9yF5XLmqVlDYdvRUM2gmlieVFLMMCD3tcpmEy57dJYZmB+CUyvv29HvsAbsnSLd5gacTYvh/gNPdd3tBqvDw==
 // Protocol: the messages peers send each other about the tree.
 //
 //   { type: "get", query: { select, omit } }       -> { type: "result", tree }
