@@ -1,0 +1,109 @@
+{
+  "owner": "danperry",
+  "seq": 5,
+  "entities": {
+    "danperry": {
+      "id": "danperry",
+      "type": "User",
+      "name": "Dan Perry",
+      "scheme": "Ed25519",
+      "publicKey": "mQ2LerNaC7FzcIbvFqnuUaUQe/pacyEe0GUDewImTXo="
+    },
+    "alice": {
+      "id": "alice",
+      "type": "User",
+      "name": "Alice",
+      "scheme": "Ed25519",
+      "publicKey": "w2316zi4fNkbUDSQvcdjDheKfzzC0y5vzXyQ+fNAgn0="
+    },
+    "club": {
+      "id": "club",
+      "type": "Population",
+      "name": "Club",
+      "scheme": "Ed25519",
+      "publicKey": "YFjvTewa7drq+8LcvfOPDi5lLW5keyCpmgKTuR5bItI="
+    }
+  },
+  "notes": {
+    "created": "2026-10-16T20:14:56.237Z"
+  },
+  "signature": "Pa6f/AdspcM2D00DW5cokqQXvsYemctb6Y4G0TUHfv5dvhoTQU6jhCVuUosrhV6/QHlZ2FSoFm3092tU+OikAg==",
+  "games": {
+    "owner": "alice",
+    "seq": 5,
+    "entities": {
+      "bob": {
+        "id": "bob",
+        "type": "User",
+        "name": "Bob",
+        "scheme": "Ed25519",
+        "publicKey": "VJNRUe0m2gaZblHCMVf6tWaFS2IQ0UKaWeKSVkA2FnU="
+      },
+      "carol": {
+        "id": "carol",
+        "type": "User",
+        "name": "Carol",
+        "scheme": "Ed25519",
+        "publicKey": "tNzPqLWnfriJyrtlZ71N1EBcOxe2i7ubA5L7UAgQ9W0="
+      },
+      "gamers": {
+        "id": "gamers",
+        "type": "Population",
+        "name": "Gamers",
+        "scheme": "Ed25519",
+        "publicKey": "o1huYTl5Aocdtsdd22r1PmVs4Zkz3OajW/+0brmfT1o="
+      }
+    },
+    "signature": "XY6eoYFFEvofcppw8cKOBbaERcUdL6G/ZwbVs0hk4XtdMhtN3IP2y413ccrdGkjtJIShraCvhCfMiN6BgdfTDw==",
+    "scores": {
+      "alice": 10,
+      "bob": 7,
+      "carol": 12
+    },
+    "arcade": {
+      "owner": "gamers",
+      "seq": 1,
+      "members": [
+        "alice",
+        "bob",
+        "carol"
+      ],
+      "signature": "IfNR1wn2rX801FeWnpuXttcaZb1SYai+lWdEHuqUORRk5jwzWEE4dTGHcNsomdaFz5I3M2i0S5WlfxNYkKz/Cg=="
+    }
+  },
+  "club": {
+    "owner": "club",
+    "seq": 4,
+    "entities": {
+      "dave": {
+        "id": "dave",
+        "type": "User",
+        "name": "Dave",
+        "scheme": "Ed25519",
+        "publicKey": "lkX0bDjlQpzgsKjqH7qPCC8A+oOlhkyp8XHqgUjUV9I="
+      },
+      "committee": {
+        "id": "committee",
+        "type": "Population",
+        "name": "Committee",
+        "scheme": "Ed25519",
+        "publicKey": "b450WUV3sHjfbC3cADbJi6riLeEdKmj5lrRL3Iawg7k="
+      }
+    },
+    "signature": "lWRDMIvwwAoVBMt5DKyaUVnye6qGiECbcfhZFIE17pyyVoZzdFUhg6oKfjza7TJZ/5CUFr/xEQYyheP5/LbQBQ==",
+    "members": [
+      "alice",
+      "dave"
+    ],
+    "meetings": {
+      "owner": "committee",
+      "seq": 2,
+      "members": [
+        "alice",
+        "dave"
+      ],
+      "signature": "+ffqMvKxihRsl6D9l28qoCqKvvkrI72rcgClvKaf3eLxUeDruQSYhth+uBMy0oUHanVILADyP1kczd778p41AA==",
+      "next": "2026-11-01"
+    }
+  }
+}
