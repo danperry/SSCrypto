@@ -1,12 +1,33 @@
 {
   "owner": "danperry",
-  "current": 5,
+  "current": 6,
   "description": "The app that runs when the page loads.",
   "versions": {
-    "1": { "added": { "run()": "Starts the app. Called by index.html." }, "notes": "run() loads Cow and Pig." },
-    "2": { "added": {}, "notes": "run() loads Cow v1 and Pig." },
-    "3": { "added": {}, "notes": "run() is a demo of the signed tree, queries and the protocol." },
-    "4": { "added": {}, "notes": "Same demo using CoreEntity v2." },
-    "5": { "added": {}, "notes": "run() also loads the saved tree (TreeStore), or starts one owned by the root, and saves it." }
+    "1": {
+      "added": {
+        "run()": "Starts the app. Called by index.html."
+      },
+      "notes": "run() loads Cow and Pig."
+    },
+    "2": {
+      "added": {},
+      "notes": "run() loads Cow v1 and Pig."
+    },
+    "3": {
+      "added": {},
+      "notes": "run() is a demo of the signed tree, queries and the protocol."
+    },
+    "4": {
+      "added": {},
+      "notes": "Same demo using CoreEntity v2."
+    },
+    "5": {
+      "added": {},
+      "notes": "run() also loads the saved tree (TreeStore), or starts one owned by the root, and saves it."
+    },
+    "6": {
+      "added": {},
+      "notes": "Uses Tree, Query and Protocol v2 (owners are ids). A new or older saved tree becomes a starter tree: the current users in the root's entities list, and dummy users and groups in the games and club branches."
+    }
   }
 }

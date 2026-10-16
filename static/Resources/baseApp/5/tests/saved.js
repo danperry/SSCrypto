@@ -6,14 +6,25 @@ function lastOutput() {
 	return document.body.children[document.body.children.length - 1].textContent;
 }
 
+// Runs baseApp with no tree.json on "disk", so a real tree.json in the repo doesn't get in the way.
+async function runWithoutDisk(baseApp) {
+	const real = globalThis.fetch;
+	globalThis.fetch = (url, options) => String(url).endsWith("/tree.json") ? { ok: false } : real(url, options);
+	try {
+		await baseApp.run();
+	} finally {
+		globalThis.fetch = real;
+	}
+}
+
 export default {
 	"run() saves the tree and loads it again next time": async baseApp => {
 		localStorage.removeItem("SSCrypto.tree");
-		await baseApp.run();
+		await runWithoutDisk(baseApp);
 		const first = JSON.parse(localStorage.getItem("SSCrypto.tree"));
 		assert.ok(first.owner && first.signature && first.notes.created);
 
-		await baseApp.run();
+		await runWithoutDisk(baseApp);
 		assert.ok(lastOutput().includes("Saved tree (loaded from localStorage"));
 		assert.deepEqual(JSON.parse(localStorage.getItem("SSCrypto.tree")), first);
 	},

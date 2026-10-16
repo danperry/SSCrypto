@@ -20,7 +20,8 @@ Each folder in `static/Resources/` is a resource named by the folder (for exampl
 
 ## Tree
 
-- `Tree` holds a signed JSON tree. Reserved property names: `owner` (an Entity record that owns that branch), `seq` (update counter), `signature`, and `{"#": hash}` (a left-out part).
+- `Tree` holds a signed JSON tree. Reserved property names: `owner` (the id of the entity that owns that branch; Tree v1 trees hold the whole record), `entities` (on an owned branch, `{ id: record }` of the entities its owner lists), `seq` (update counter), `signature`, and `{"#": hash}` (a left-out part).
 - An owner signs its branch down to the next `owner` and no further. The root owner is `CoreEntity`.
+- An owner id is looked up in the `entities` lists of the owned branches above it, nearest first, up to the root, so lower branches can use entities listed higher up. A branch's own list never counts for its own owner (except the root's, outside of `verify`). Other references to entities (e.g. a Population's `members`) are ids too.
 - `Query` uses a subset of JSONPath: `Query.run(tree, { select, omit })`.
 - `TreeStore` keeps the tree in localStorage, falling back to `tree.json` in the repo root when that's empty. For now `node/app.js` has a `PUT /tree.json` endpoint that writes it to disk.

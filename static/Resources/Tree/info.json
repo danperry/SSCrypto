@@ -1,6 +1,6 @@
 {
   "owner": "danperry",
-  "current": 1,
+  "current": 2,
   "description": "The signed JSON tree. Reserved property names: owner, seq, signature, and { \"#\": hash } for a left-out part. An owner signs its branch down to the next owner. path is a list of keys.",
   "versions": {
     "1": {
@@ -16,6 +16,14 @@
         "isObject(value)": "True for objects and arrays.",
         "isStub(value)": "True for { \"#\": hash }."
       }
+    },
+    "2": {
+      "added": {
+        "entityLists(tree, path)": "The entities lists a node at path can use for its owner id, nearest last.",
+        "findEntity(tree, path, id)": "The record a node at path would get for owner id, or null.",
+        "addEntity(tree, path, newEntity, entity)": "Adds newEntity to the entities list of the owned branch at path. Only its owner may. Async."
+      },
+      "notes": "owner is now an id, looked up in the entities lists of the owned branches above (nearest first, up to the root). delegate lists the new owner in the delegator's entities if it isn't known above. verifyBranch(node, lists) takes the lists from above. Trees with whole records in owner still work."
     }
   }
 }
