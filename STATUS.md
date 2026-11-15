@@ -21,14 +21,13 @@ Where the work stands, and what's next. The rules for working in this repo are i
 
 ## Next steps
 
-1. **Dan: sign TreeStore v2 and baseApp v9** (`node node/sign.js`, then push). Until then `node node/test.js` reports them as unsigned and `node node/check-tree.js` can't load TreeStore v2.
-2. **A client way to make changes:** edit a branch, sign it, and send it as a `put`.
-3. **Then the server.** Decisions Dan still needs to make first:
+1. **A client way to make changes:** edit a branch, sign it, and send it as a `put`.
+2. **Then the server.** Decisions Dan still needs to make first:
    - Is the server the main store everyone syncs with, or one peer among many?
    - Transport and hosting: a single `POST /protocol` (JSON in, JSON out), maybe WebSocket for live updates; HTTPS and CORS if it's hosted anywhere but locally.
    - Are all reads public, or do some branches need signed requests and read permissions?
    - How peers catch up: "changes since seq X", or comparing `{"#": hash}` stubs.
-4. **Before going public:** keep private keys out of plain localStorage (non-extractable keys in IndexedDB, or encrypted with a passphrase); add size, query-cost and rate limits; add a protocol version to messages (`{ v: 1, type, ... }`); retire `PUT /tree.json`.
+3. **Before going public:** keep private keys out of plain localStorage (non-extractable keys in IndexedDB, or encrypted with a passphrase); add size, query-cost and rate limits; add a protocol version to messages (`{ v: 1, type, ... }`); retire `PUT /tree.json`.
 
 ## Later
 
