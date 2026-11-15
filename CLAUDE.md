@@ -4,6 +4,7 @@
 
 - Always run `git push` right after every `git commit` in this repo.
 - Keep all code as simple and concise as possible, so even coding hobbyists can understand it. Prefer the plainest approach: few moving parts, few abstractions, no extra dependencies.
+- [STATUS.md](STATUS.md) says where the work stands and what's next. Keep it up to date when something there gets done or changes.
 
 ## Resources
 
