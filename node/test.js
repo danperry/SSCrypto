@@ -12,30 +12,9 @@ const { pathToFileURL } = require('url');
 const root = path.join(__dirname, '..');
 const resources = path.join(root, 'static', 'Resources');
 
-// Just enough of a browser for the resources to run in Node.
-globalThis.crypto = globalThis.crypto || require('crypto').webcrypto;
-globalThis.fetch = async (url, options = {}) => {
-  const file = new URL(url);
-  // Tests never write to disk, and a missing file answers "not found" like a real server.
-  if (options.method === 'PUT' || !fs.existsSync(file)) {
-    const notFound = async () => { throw new Error(`Not found: ${file.pathname}`); };
-    return { ok: false, text: notFound, json: notFound };
-  }
-  const text = fs.readFileSync(file, 'utf8');
-  return { ok: true, text: async () => text, json: async () => JSON.parse(text) };
-};
-const storage = {};
-Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: {
-  getItem: key => (key in storage ? storage[key] : null),
-  setItem: (key, value) => { storage[key] = String(value); },
-  removeItem: key => { delete storage[key]; }
-} });
-globalThis.alert = () => {};
-globalThis.document = {
-  baseURI: pathToFileURL(root + '/').href,
-  createElement: () => ({ textContent: '' }),
-  body: { children: [], append(child) { this.children.push(child); } }
-};
+// Just enough of a browser for the resources to run in Node (tests never write to disk).
+const browser = require('./browser');
+browser({ saveToDisk: false });
 process.on('unhandledRejection', error => console.log(`  (warning: ${error.message})`));
 
 function versionsOf(id) {
@@ -58,7 +37,7 @@ async function runTestFile(file, resource) {
 }
 
 async function main() {
-  const Network = (await import(pathToFileURL(path.join(root, 'static', 'javascript', 'network.js')).href)).default;
+  const Network = await browser.loadNetwork();
   let failed = 0;
   const fail = message => { failed++; console.log(`  FAIL ${message}`); };
 

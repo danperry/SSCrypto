@@ -6,7 +6,8 @@ Where the work stands, and what's next. The rules for working in this repo are i
 
 - A signed JSON tree with delegated ownership (`Tree` v3), entities referenced by id and listed in `entities` on owned branches, a JSONPath-subset query language (`Query` v2), and `get`/`put` protocol messages handled in memory (`Protocol` v2).
 - Every resource is a signed ES module with tests; `node node/test.js` runs all of them and CI runs it before deploying to GitHub Pages.
-- `tree.json` (repo root) is the saved tree: root owned by `danperry`, a `documentation.protocol` section explaining the protocol in plain language, and starter dummy users and groups under `games` and `club`. `TreeStore` keeps it in localStorage, falling back to `tree.json`; `node/app.js` has a temporary `PUT /tree.json` endpoint.
+- `tree.json` (repo root) is the saved tree: root owned by `danperry`, a `documentation.protocol` section explaining the protocol in plain language, and starter dummy users and groups under `games` and `club`. `TreeStore` v2 keeps it in localStorage and `tree.json`, and loads whichever has the higher root `seq` (localStorage when equal); `node/app.js` has a temporary `PUT /tree.json` endpoint.
+- The resources run in Node: `node/browser.js` has the browser stand-ins (`fetch` for files, `document.baseURI`, in-memory `localStorage`) used by both `node/test.js` and `node/check-tree.js`, which loads `tree.json` and verifies it against CoreEntity. With `saveToDisk: true`, `TreeStore.save` writes `tree.json`, so TreeStore is also the disk store in Node. Node 22 (what CI uses) accepts the browser-exported key's `"alg": "Ed25519"` label, so Crypto needs no change.
 - The root key is Dan's real key: public in `coreEntity.json`, private only on Dan's machine at `~/.sscrypto/core-key.json` (and in his browser's localStorage as `SSCrypto.coreKey`).
 
 ## Only Dan can do these
@@ -16,19 +17,18 @@ Where the work stands, and what's next. The rules for working in this repo are i
 
 ## Known gotcha
 
-- Dan's browser keeps its own copy of the tree in localStorage and saves it back to `tree.json` on every page load. If `tree.json` is changed outside the browser (e.g. the docs were added that way), clear it first in the browser console with `localStorage.removeItem("SSCrypto.tree")`, or the old copy overwrites the file. Fix: next item below.
+- `TreeStore` v2 only compares the **root** `seq`. An edit to a delegated branch (e.g. `games`) bumps that branch's `seq`, not the root's, so it doesn't count as newer. If `tree.json` only changed below the root, clear the browser's copy with `localStorage.removeItem("SSCrypto.tree")` as before.
 
 ## Next steps
 
-1. **TreeStore v2: keep the newest copy.** Load both localStorage and `tree.json` and keep the one with the higher root `seq`, so edits made outside the browser win. Then a baseApp version that uses it.
-2. **Run the resources in Node** (for the server): move the test runner's browser stand-ins (`fetch` for files, `document.baseURI`, `localStorage`) into one shared Node file used by both the tests and the server, plus a disk-based store. Node 18 rejected the browser-exported key's `"alg": "Ed25519"` label; check whether Node 22 accepts it, or have Crypto drop the label.
-3. **A client way to make changes:** edit a branch, sign it, and send it as a `put`.
-4. **Then the server.** Decisions Dan still needs to make first:
+1. **Dan: sign TreeStore v2 and baseApp v9** (`node node/sign.js`, then push). Until then `node node/test.js` reports them as unsigned and `node node/check-tree.js` can't load TreeStore v2.
+2. **A client way to make changes:** edit a branch, sign it, and send it as a `put`.
+3. **Then the server.** Decisions Dan still needs to make first:
    - Is the server the main store everyone syncs with, or one peer among many?
    - Transport and hosting: a single `POST /protocol` (JSON in, JSON out), maybe WebSocket for live updates; HTTPS and CORS if it's hosted anywhere but locally.
    - Are all reads public, or do some branches need signed requests and read permissions?
    - How peers catch up: "changes since seq X", or comparing `{"#": hash}` stubs.
-5. **Before going public:** keep private keys out of plain localStorage (non-extractable keys in IndexedDB, or encrypted with a passphrase); add size, query-cost and rate limits; add a protocol version to messages (`{ v: 1, type, ... }`); retire `PUT /tree.json`.
+4. **Before going public:** keep private keys out of plain localStorage (non-extractable keys in IndexedDB, or encrypted with a passphrase); add size, query-cost and rate limits; add a protocol version to messages (`{ v: 1, type, ... }`); retire `PUT /tree.json`.
 
 ## Later
 
