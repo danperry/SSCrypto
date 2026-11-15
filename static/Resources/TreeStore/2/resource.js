@@ -1,3 +1,4 @@
+// signature: 0D6+8YRsBJ/RetxXauJQMPK5y//DRVcQZTYZ0XbDixO0N0nentphtaxfKiksKtPfeg50ZhaHRCl/jYriOQYUDQ==
 // TreeStore v2: like v1, but load() keeps the newest copy.
 //
 // v1 always preferred localStorage, so a tree.json changed outside the browser was

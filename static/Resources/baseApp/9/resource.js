@@ -1,3 +1,4 @@
+// signature: VdP7+wkTPauydj2cBZY0JoVOxDLbpBYIqPCXXwQsWSEA+LPcUEHXXRtHTOy4IxWiP9graSDkNx5PhmCuHmZCAA==
 // baseApp: a demo of the signed tree, queries and the protocol, plus the saved tree.
 const { User, Population } = await Network.loadResource("Entity", 1);
 const CoreEntity = await Network.loadResource("CoreEntity", 2);
